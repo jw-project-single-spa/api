@@ -47,7 +47,7 @@
     "@types/jest": "^27.0.1",
     "@types/systemjs": "^6.1.1",
     "@types/webpack-env": "^1.16.2",
-    "firebase": "^9.10.0",
+    "firebase": "^9.12.1",
     "single-spa": "^5.9.4"
   },
   "types": "dist/jw-project-api.d.ts"

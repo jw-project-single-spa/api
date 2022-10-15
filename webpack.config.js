@@ -10,12 +10,6 @@ module.exports = (webpackConfigEnv, argv) => {
   });
 
   return merge(defaultConfig, {
-    externals: [
-      "moment",
-      "firebase/app",
-      "firebase/auth",
-      "firebase/firestore",
-      "rxjs",
-    ],
+    externals: ["moment", "rxjs"],
   });
 };
