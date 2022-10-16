@@ -48,6 +48,7 @@
     "@types/systemjs": "^6.1.1",
     "@types/webpack-env": "^1.16.2",
     "firebase": "^9.12.1",
+    "rxjs": "^7.5.7",
     "single-spa": "^5.9.4"
   },
   "types": "dist/jw-project-api.d.ts"

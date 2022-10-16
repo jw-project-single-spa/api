@@ -1,3 +1,7 @@
-type loginWithRedirect = () => void;
+import type { BehaviorSubject } from "rxjs";
 
-export { loginWithRedirect };
+export type ApplicationCustomProps = {
+  name: string;
+  titleObservable: BehaviorSubject<string>;
+  themeObservable: BehaviorSubject<string>;
+};

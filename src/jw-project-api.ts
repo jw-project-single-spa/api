@@ -4,3 +4,4 @@ import { firebaseConfig } from "./firebase-config";
 initializeApp(firebaseConfig);
 
 export * from "./auth";
+export * from "./types";
