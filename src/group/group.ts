@@ -20,6 +20,7 @@ import {
   CONGREGATIONS_COLLETION_KEY,
   GROUPS_COLLETION_KEY,
 } from "../utils/firebase-documents-keys";
+import { idSet } from "../utils/id-set";
 import { Group } from "./types";
 
 export async function getGroups() {
@@ -33,15 +34,16 @@ export async function getGroups() {
       CONGREGATIONS_COLLETION_KEY,
       congregation.id,
       GROUPS_COLLETION_KEY
-    ).withConverter(assignTypes<Omit<Group, "id">>())
+    )
+    .withConverter(assignTypes<Group>())
   );
 
-  return groupsSnap.docs;
+  return groupsSnap.docs.map(idSet);
 }
 
 export let unsubscribe: Unsubscribe;
 export async function snapshotGroup(
-  onNext: (snapshot: QuerySnapshot<Omit<Group, "id">>) => void
+  onNext: (snapshot: QuerySnapshot<Group>) => void
 ) {
   const db = getFirestore(getApp());
   const congregation = await getCongregationByLoggedUser();
@@ -53,14 +55,14 @@ export async function snapshotGroup(
         CONGREGATIONS_COLLETION_KEY,
         congregation.id,
         GROUPS_COLLETION_KEY
-      ).withConverter(assignTypes<Omit<Group, "id">>())
+      ).withConverter(assignTypes<Group>())
     ),
     onNext
   );
 }
 
-export async function saveGroup(groupData: Group, id?: string) {
-  debugger
+export async function saveGroup(groupData: Omit<Group, "id">, id?: string) {
+  debugger;
   const db = getFirestore(getApp());
   const congregation = await getCongregationByLoggedUser();
 

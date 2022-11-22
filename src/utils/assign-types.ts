@@ -6,7 +6,7 @@ export function assignTypes<T extends object>() {
       return doc;
     },
     fromFirestore(snapshot: QueryDocumentSnapshot): T {
-      return snapshot.data()! as T;
+      return { ...snapshot.data()} as T;
     },
   };
 }
