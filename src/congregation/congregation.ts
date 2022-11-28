@@ -9,11 +9,11 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { assignTypes } from "../utils/assign-types";
 import {
   CONGREGATIONS_COLLETION_KEY,
   PUBLISHERS_COLLETION_KEY,
 } from "../utils/firebase-documents-keys";
+import { idSet } from "../utils/id-set";
 import { Congregation } from "./types";
 
 let congregationByLoggedUser: Congregation;
@@ -36,9 +36,10 @@ export const getCongregationByLoggedUser = async () => {
 
   const congregationId = publisher.ref.parent.parent.id;
   const congregation = await getDoc(
-    doc(db, CONGREGATIONS_COLLETION_KEY, congregationId).withConverter(
-      assignTypes<Omit<Congregation, "id">>()
-    )
+    doc(db, CONGREGATIONS_COLLETION_KEY, congregationId).withConverter({
+      toFirestore: null,
+      fromFirestore: (e) => idSet<Congregation>(e),
+    })
   );
   congregationByLoggedUser = { id: congregationId, ...congregation.data() };
 

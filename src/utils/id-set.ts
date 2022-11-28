@@ -1,5 +1,5 @@
 import { QueryDocumentSnapshot } from "firebase/firestore";
 
-export function idSet(snapshot: QueryDocumentSnapshot) {
-  return { id: snapshot.id, ...snapshot.data() };
+export function idSet<T>(snapshot: QueryDocumentSnapshot) {
+  return { ...snapshot.data(), id: snapshot.id } as T;
 }

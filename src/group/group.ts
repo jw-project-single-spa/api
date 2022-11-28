@@ -5,17 +5,14 @@ import {
   addDoc,
   updateDoc,
   getFirestore,
-  getDoc,
   getDocs,
   onSnapshot,
   query,
   QuerySnapshot,
-  DocumentSnapshot,
   FirestoreError,
   Unsubscribe,
 } from "firebase/firestore";
 import { getCongregationByLoggedUser } from "../congregation";
-import { assignTypes } from "../utils/assign-types";
 import {
   CONGREGATIONS_COLLETION_KEY,
   GROUPS_COLLETION_KEY,
@@ -34,16 +31,19 @@ export async function getGroups() {
       CONGREGATIONS_COLLETION_KEY,
       congregation.id,
       GROUPS_COLLETION_KEY
-    )
-    .withConverter(assignTypes<Group>())
+    ).withConverter({
+      toFirestore: null,
+      fromFirestore: (e) => idSet<Group>(e),
+    })
   );
 
-  return groupsSnap.docs.map(idSet);
+  return groupsSnap;
 }
 
 export let unsubscribe: Unsubscribe;
 export async function snapshotGroup(
-  onNext: (snapshot: QuerySnapshot<Group>) => void
+  onNext: (snapshot: QuerySnapshot<Group>) => void,
+  onError?: (error: FirestoreError) => void
 ) {
   const db = getFirestore(getApp());
   const congregation = await getCongregationByLoggedUser();
@@ -55,9 +55,13 @@ export async function snapshotGroup(
         CONGREGATIONS_COLLETION_KEY,
         congregation.id,
         GROUPS_COLLETION_KEY
-      ).withConverter(assignTypes<Group>())
+      ).withConverter({
+        toFirestore: null,
+        fromFirestore: (e) => idSet<Group>(e),
+      })
     ),
-    onNext
+    onNext,
+    onError
   );
 }
 
